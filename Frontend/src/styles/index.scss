@@ -1,0 +1,117 @@
+// Configuration
+@import "~bootstrap/scss/functions";
+
+$primary: #7d98a6;
+$dark: #6d6b67;
+$secondary: #ded9d9;
+
+$zindex-dropdown: 5000;
+
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/utilities";
+
+$min-contrast-ratio: 3;
+
+// Layout & components
+@import "~bootstrap/scss/root";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+@import "~bootstrap/scss/images";
+@import "~bootstrap/scss/containers";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/tables";
+@import "~bootstrap/scss/forms";
+@import "~bootstrap/scss/buttons";
+@import "~bootstrap/scss/transitions";
+@import "~bootstrap/scss/dropdown";
+@import "~bootstrap/scss/button-group";
+@import "~bootstrap/scss/nav";
+@import "~bootstrap/scss/navbar";
+@import "~bootstrap/scss/card";
+@import "~bootstrap/scss/accordion";
+@import "~bootstrap/scss/breadcrumb";
+@import "~bootstrap/scss/pagination";
+@import "~bootstrap/scss/badge";
+@import "~bootstrap/scss/alert";
+@import "~bootstrap/scss/progress";
+@import "~bootstrap/scss/list-group";
+@import "~bootstrap/scss/close";
+@import "~bootstrap/scss/toasts";
+@import "~bootstrap/scss/modal";
+@import "~bootstrap/scss/tooltip";
+@import "~bootstrap/scss/popover";
+@import "~bootstrap/scss/carousel";
+@import "~bootstrap/scss/spinners";
+@import "~bootstrap/scss/offcanvas";
+@import "~bootstrap/scss/placeholders";
+
+// Helpers
+@import "~bootstrap/scss/helpers";
+
+// Utilities
+@import "~bootstrap/scss/utilities/api";
+
+.bg-abu {
+    background-color: gray;
+}
+
+.rounded-4 {
+    border-radius: 0.5rem !important;
+}
+
+.rounded-5 {
+    border-radius: 0.75rem !important;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+    color: white;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: white;
+}
+
+.text-light-green {
+    color: greenyellow;
+}
+
+.top-cover {
+    height: 50px;
+    // margin-top: 50px;
+}
+
+.fixed-bottom-res {
+    @extend .mt-3;
+}
+
+@media (min-height: 750px) {
+    .top-cover {
+        height: 150px;
+    }
+
+    // .fixed-bottom-res {
+    //     position: fixed;
+    //     right: 0;
+    //     bottom: 0;
+    //     left: 0;
+    //     z-index: 1030;
+    // }
+}
+
+@media (min-height: 600px) {
+    .fixed-bottom-res {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1030;
+    }
+}

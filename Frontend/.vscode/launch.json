@@ -1,0 +1,32 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://nextjs.org/docs/advanced-features/debugging
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "command": "npm run dev",
+      "name": "Next.js: debug server-side",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "name": "Next.js: debug client-side",
+      "request": "launch",
+      "type": "pwa-msedge",
+      "url": "http://localhost:3000"
+    },
+    {
+      "command": "npm run dev",
+      "console": "integratedTerminal",
+      "name": "Next.js: debug full stack",
+      "request": "launch",
+      "type": "node-terminal",
+      "serverReadyAction": {
+        "action": "debugWithEdge",
+        "pattern": "started server on .+, url: (https?://.+)",
+        "uriFormat": "%s"
+      }
+    }
+  ]
+}
