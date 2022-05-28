@@ -198,6 +198,7 @@ const AddWorkoutPage: NextPageWithLayout = () => {
                                         mutate();
                                         alertSuccess();
                                         setShowModal(false);
+                                        setTotal(1);
                                     } catch (err) {
                                         console.error(err);
                                         alertError();
