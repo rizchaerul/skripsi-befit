@@ -48,7 +48,7 @@ public class UserAccountController : ControllerBase
             Email = form.Email,
             Password = BCrypt.Net.BCrypt.HashPassword(form.Password),
             WaterTarget = 8,
-            PerGlass = 250,
+            PerGlass = 230,
         };
 
         _beFitDbContext.Add(newAccount);

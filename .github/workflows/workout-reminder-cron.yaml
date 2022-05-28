@@ -9,5 +9,5 @@ jobs:
       - name: Call our API route
         run: |
           curl --request GET \
-          --url 'https://befit-backend.herokuapp.com/api/job/workout' \
+          --url 'https://befit-backend.herokuapp.com/api/job' \
           --header 'Authorization: Bearer befitSecret123'
