@@ -26,5 +26,7 @@ public class PostItem
 
     public string Content { get; set; } = string.Empty;
 
+    public string? ProgressJson { get; set; }
+
     public List<WorkoutItem> Workouts { get; set; } = new();
 }

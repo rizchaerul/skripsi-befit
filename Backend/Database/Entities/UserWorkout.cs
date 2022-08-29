@@ -26,6 +26,8 @@ namespace Database.Entities
         public int[] Days { get; set; } = null!;
         [Column("created_at")]
         public DateTime CreatedAt { get; set; }
+        [Column("progress_json")]
+        public string? ProgressJson { get; set; }
 
         [ForeignKey(nameof(UserAccountId))]
         [InverseProperty("UserWorkouts")]

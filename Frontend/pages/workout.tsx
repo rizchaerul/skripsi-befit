@@ -237,7 +237,7 @@ const WorkoutPage: NextPageWithLayout = () => {
                                                         );
                                                     }}
                                                 >
-                                                    Edit Progress
+                                                    Update Progress
                                                 </Dropdown.Item>
 
                                                 <Dropdown.Item

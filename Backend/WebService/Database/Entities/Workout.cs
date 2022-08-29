@@ -32,6 +32,8 @@ namespace Database.Entities
         public string? Description { get; set; }
         [Column("created_at")]
         public DateTime CreatedAt { get; set; }
+        [Column("unit")]
+        public string Unit { get; set; } = null!;
 
         [ForeignKey(nameof(WorkoutCategoryId))]
         [InverseProperty("Workouts")]

@@ -7,6 +7,7 @@ using WebService.Controllers;
 using WebService.Constants;
 using WebService.Models.DataTransferObjects.UserWorkout;
 using WebService.Models.Reporting;
+using WebService.Services;
 
 namespace Database.Entities
 {
@@ -30,6 +31,8 @@ namespace Database.Entities
         public int[] Days { get; set; } = null!;
         [Column("created_at")]
         public DateTime CreatedAt { get; set; }
+        [Column("progress_json")]
+        public string? ProgressJson { get; set; }
 
         [ForeignKey(nameof(UserAccountId))]
         [InverseProperty("UserWorkouts")]
@@ -99,7 +102,7 @@ namespace Database.Entities
             {
                 WorkoutId = Guid.NewGuid(),
                 WorkoutCategoryId = customCategory.WorkoutCategoryId,
-                IsMinute = form.IsMinute,
+                Unit = form.Unit,
                 Name = form.WorkoutName,
             };
 
@@ -184,7 +187,7 @@ namespace Database.Entities
                                 Id = wd.UserWorkoutDetailId,
                                 Name = wd.Workout.Name,
                                 Target = wd.Target,
-                                Unit = wd.Workout.IsMinute ? "m" : "x",
+                                Unit = UnitConvertService.ConvertUnitName(wd.Workout.Unit),
                                 WorkoutId = wd.WorkoutId,
 
                                 Progress = wd.Workout.WorkoutProgresses

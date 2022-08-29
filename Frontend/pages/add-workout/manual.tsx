@@ -5,6 +5,7 @@ import { ApiException } from "../../src/clients/ApiClient";
 import { SimpleAppBar } from "../../src/components/AppBar";
 import SmartForm from "../../src/components/forms/SmartForm";
 import { createAuthorizeLayout } from "../../src/components/layouts/AuthorizedLayout";
+import { UnitConstants } from "../../src/constants/UnitConstants";
 import { alertError, alertSuccess } from "../../src/functions/alert";
 import { createApiClient } from "../../src/functions/create-api-client";
 import { NextPageWithLayout } from "../_app";
@@ -26,7 +27,7 @@ const ManualPage: NextPageWithLayout = () => {
                     try {
                         await createApiClient().userWorkout_AddManualWorkout({
                             workoutName: a.name as string,
-                            isMinute: a.isMinute === "true",
+                            unit: a.isMinute,
                             repetition: a.repetition as number,
                             userAccountId: session.data?.token.sub ?? "",
                         });
@@ -83,8 +84,16 @@ const ManualPage: NextPageWithLayout = () => {
                                 },
                             }}
                         >
-                            <option value="false">Time(s)</option>
-                            <option value="true">Minute(s)</option>
+                            <option value={UnitConstants.time}>Time(s)</option>
+                            <option value={UnitConstants.minute}>
+                                Minute(s)
+                            </option>
+                            <option value={UnitConstants.distanceMeter}>
+                                Distance (meter)
+                            </option>
+                            <option value={UnitConstants.distanceKilometer}>
+                                Distance (kilometer)
+                            </option>
                         </SmartForm.Select>
 
                         <label>Workout Repetition Unit</label>
@@ -114,7 +123,7 @@ const ManualPage: NextPageWithLayout = () => {
                             }}
                         />
 
-                        <label>Target</label>
+                        <label>Target Per Day</label>
                     </div>
 
                     <small className="mt-1 w-100 text-danger">

@@ -80,7 +80,7 @@ public class UserWorkoutController : ControllerBase
                 Id = w.WorkoutId,
                 Name = w.Name,
                 IconBase64 = $"{_webApiSettings.Value.Url}/api/image/workout/{w.WorkoutId}",
-                Times = $"{(w.IsMinute ? "Minutes" : "Times")}",
+                Times = $"{UnitConvertService.ConvertUnitName(w.Unit)}",
                 Description = w.Description ?? "",
                 Url = w.VideoUrl ?? "",
             })
@@ -172,7 +172,7 @@ public class UserWorkoutController : ControllerBase
                         Id = wd.UserWorkoutDetailId,
                         Name = wd.Workout.Name,
                         Target = wd.Target,
-                        Unit = wd.Workout.IsMinute ? "m" : "x",
+                        Unit = UnitConvertService.ConvertUnitName(wd.Workout.Unit),
                         WorkoutId = wd.WorkoutId,
                         IsCustom = wd.Workout.WorkoutCategory.Name == "Custom",
 

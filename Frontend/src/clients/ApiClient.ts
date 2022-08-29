@@ -2272,12 +2272,16 @@ export interface PostItem {
     userName: string;
     categoryName: string;
     content: string;
+    progressJson?: string | undefined;
     workouts: WorkoutItem[];
 }
 
 export interface WorkoutItem {
     id: string;
     target: string;
+    progress: string;
+    unit: string;
+    workoutId: string;
     name: string;
 }
 
@@ -2423,7 +2427,7 @@ export interface WorkoutItem2 {
 
 export interface UserWorkoutManualForm {
     workoutName: string;
-    isMinute: boolean;
+    unit: string;
     repetition: number;
     userAccountId: string;
 }
@@ -2455,7 +2459,7 @@ export interface WorkoutCategoryForm {
 
 export interface WorkoutDetails {
     categoryId: string;
-    isMinute: boolean;
+    unit: string;
     name: string;
     description: string;
     videoUrl: string;
@@ -2464,7 +2468,7 @@ export interface WorkoutDetails {
 
 export interface WorkoutForm {
     categoryId: string;
-    isMinute: boolean;
+    unit: string;
     name: string;
     description: string;
     videoUrl: string;

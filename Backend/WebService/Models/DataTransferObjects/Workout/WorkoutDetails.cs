@@ -4,7 +4,7 @@ public class WorkoutDetails
 {
     public Guid CategoryId { get; set; }
 
-    public bool IsMinute { get; set; }
+    public string Unit { get; set; }
 
     public string Name { get; set; } = string.Empty;
 

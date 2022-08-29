@@ -136,6 +136,7 @@ export const Post: FunctionComponent<{
                             <tr>
                                 <th>Workout</th>
                                 <th>Target</th>
+                                <th>Progress</th>
                             </tr>
                         </thead>
 
@@ -144,6 +145,7 @@ export const Post: FunctionComponent<{
                                 <tr key={w.id}>
                                     <td>{w.name}</td>
                                     <td>{w.target}</td>
+                                    <td>{w.progress}</td>
                                 </tr>
                             ))}
                         </tbody>

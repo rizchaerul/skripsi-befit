@@ -8,7 +8,7 @@ public class UserWorkoutManualForm
     public string WorkoutName { get; set; } = string.Empty;
 
     [Required]
-    public bool IsMinute { get; set; }
+    public string Unit { get; set; } = string.Empty;
 
     [Required]
     public int Repetition { get; set; }

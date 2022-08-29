@@ -154,7 +154,7 @@ const AddWorkoutPage: NextPageWithLayout = () => {
                         </div>
 
                         <div className="text-center mt-2">
-                            {selectedWorkout?.times}
+                            {selectedWorkout?.times} per day
                         </div>
                     </div>
 

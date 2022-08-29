@@ -27,7 +27,7 @@ const EditWorkoutPage: NextPageWithLayout = () => {
                         categoryId: result.categoryId,
                         description: result.description,
                         iconBase64: result.iconBase64,
-                        isMinute: result.isMinute,
+                        unit: result.unit,
                         name: result.name,
                         videoUrl: result.videoUrl,
                     });
@@ -56,7 +56,7 @@ const EditWorkoutPage: NextPageWithLayout = () => {
                         categoryId: initialValues?.categoryId,
                         description: initialValues?.description,
                         iconBase64: initialValues?.iconBase64,
-                        isMinute: initialValues?.isMinute ? "true" : "false",
+                        isMinute: initialValues?.unit,
                         name: initialValues?.name,
                         videoUrl: initialValues?.videoUrl,
                     }}
@@ -83,7 +83,7 @@ const EditWorkoutPage: NextPageWithLayout = () => {
                                         categoryId: data.categoryId,
                                         description: data.description,
                                         iconBase64: icon,
-                                        isMinute: data.isMinute === "true",
+                                        unit: data.isMinute,
                                         name: data.name,
                                         videoUrl: data.videoUrl,
                                     });
@@ -94,7 +94,7 @@ const EditWorkoutPage: NextPageWithLayout = () => {
                                     description: res.description,
                                     iconBase64: res.iconBase64,
 
-                                    isMinute: res.isMinute ? "true" : "false",
+                                    isMinute: res.unit,
                                     name: res.name,
                                     videoUrl: res.videoUrl,
                                 });

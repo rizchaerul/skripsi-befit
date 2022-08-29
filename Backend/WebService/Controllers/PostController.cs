@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using WebService.Constants;
 using WebService.Enums;
+using WebService.Models.CustomModels;
 using WebService.Models.DataTransferObjects.Post;
 using WebService.Models.DataTransferObjects.Reply;
 using WebService.Models.DataTransferObjects.Vote;
@@ -50,12 +52,23 @@ public class PostController : ControllerBase
             return BadRequest();
         }
 
+        var dateOnly = DateOnly.FromDateTime(DateTime.UtcNow.AddHours(TimeOffsetConstants.TimeOffset));
+
+        var progressList = await _beFitDbContext.WorkoutProgresses
+            .Where(x => x.UserAccountId == identifier && x.WorkoutDate == dateOnly)
+            .ToListAsync();
+
         var newUserWorkout = new UserWorkout
         {
             UserWorkoutId = Guid.NewGuid(),
             Days = Array.Empty<int>(),
             IsActive = false,
             UserAccountId = userWorkout.UserAccountId,
+            ProgressJson = JsonSerializer.Serialize(progressList.Select(x => new ProgressModel
+            {
+                WorkoutId = x.WorkoutId,
+                Progress = x.Progress,
+            })),
         };
 
         _beFitDbContext.Add(newUserWorkout);
@@ -142,6 +155,7 @@ public class PostController : ControllerBase
             .Take(pageSize)
             .Select(p => new PostItem
             {
+                ProgressJson = p.UserWorkout.ProgressJson,
                 UserWorkoutId = p.UserWorkoutId,
                 Id = p.PostId,
                 Title = p.Title,
@@ -159,11 +173,34 @@ public class PostController : ControllerBase
                     {
                         Id = wd.UserWorkoutDetailId,
                         Name = wd.Workout.Name,
-                        Target = $"{wd.Target} {(wd.Workout.IsMinute ? "Minutes" : "Times")}"
+                        WorkoutId = wd.Workout.WorkoutId,
+                        Unit = UnitConvertService.ConvertUnitName(wd.Workout.Unit),
+                        Target = $"{wd.Target} {UnitConvertService.ConvertUnitName(wd.Workout.Unit)}"
                     })
-                    .ToList()
+                    .ToList(),
             })
             .ToListAsync();
+
+        foreach (var post in posts)
+        {
+            var progressModelList = JsonSerializer.Deserialize<List<ProgressModel>>(post.ProgressJson ?? "[]");
+
+            foreach (var workout in post.Workouts)
+            {
+                var progress = progressModelList?
+                    .Where(x => x.WorkoutId == workout.WorkoutId)
+                    .FirstOrDefault();
+
+                if (progress != null)
+                {
+                    workout.Progress = $"{progress.Progress} {workout.Unit}";
+                }
+                else
+                {
+                    workout.Progress = $"0 {workout.Unit}";
+                }
+            }
+        }
 
         var totalPages = (totalPosts + pageSize - 1) / pageSize;
 
@@ -218,7 +255,7 @@ public class PostController : ControllerBase
                     {
                         Id = wd.UserWorkoutDetailId,
                         Name = wd.Workout.Name,
-                        Target = $"{wd.Target} {(wd.Workout.IsMinute ? "Minutes" : "Times")}"
+                        Target = $"{wd.Target} {UnitConvertService.ConvertUnitName(wd.Workout.Unit)}"
                     })
                     .ToList()
             })

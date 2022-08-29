@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using WebService.Enums;
+using WebService.Models.CustomModels;
 using WebService.Models.DataTransferObjects.Post;
 using WebService.Models.Job;
+using WebService.Services;
 
 namespace Database.Entities
 {
@@ -100,6 +103,7 @@ namespace Database.Entities
                 .Take(pageSize)
                 .Select(p => new PostItem
                 {
+                    ProgressJson = p.UserWorkout.ProgressJson,
                     UserWorkoutId = p.UserWorkoutId,
                     Id = p.PostId,
                     Title = p.Title,
@@ -117,11 +121,34 @@ namespace Database.Entities
                         {
                             Id = wd.UserWorkoutDetailId,
                             Name = wd.Workout.Name,
-                            Target = $"{wd.Target} {(wd.Workout.IsMinute ? "Minutes" : "Times")}"
+                            WorkoutId = wd.Workout.WorkoutId,
+                            Unit = UnitConvertService.ConvertUnitName(wd.Workout.Unit),
+                            Target = $"{wd.Target} {UnitConvertService.ConvertUnitName(wd.Workout.Unit)}"
                         })
                         .ToList()
                 })
                 .ToListAsync();
+
+            foreach (var post in posts)
+            {
+                var progressModelList = JsonSerializer.Deserialize<List<ProgressModel>>(post.ProgressJson ?? "[]");
+
+                foreach (var workout in post.Workouts)
+                {
+                    var progress = progressModelList?
+                        .Where(x => x.WorkoutId == workout.WorkoutId)
+                        .FirstOrDefault();
+
+                    if (progress != null)
+                    {
+                        workout.Progress = $"{progress.Progress} {workout.Unit}";
+                    }
+                    else
+                    {
+                        workout.Progress = $"0 {workout.Unit}";
+                    }
+                }
+            }
 
             var totalPages = (totalPosts + pageSize - 1) / pageSize;
 
@@ -165,7 +192,7 @@ namespace Database.Entities
                         {
                             Id = wd.UserWorkoutDetailId,
                             Name = wd.Workout.Name,
-                            Target = $"{wd.Target} {(wd.Workout.IsMinute ? "Minutes" : "Times")}"
+                            Target = $"{wd.Target} {UnitConvertService.ConvertUnitName(wd.Workout.Unit)}"
                         })
                         .ToList()
                 })

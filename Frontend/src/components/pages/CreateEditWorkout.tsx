@@ -1,4 +1,5 @@
 import { FunctionalComponent } from "react";
+import { UnitConstants } from "../../constants/UnitConstants";
 import { RteInput } from "../forms/inputs/RteInput";
 import SmartForm, { SmartFormProps } from "../forms/SmartForm";
 
@@ -58,8 +59,14 @@ export const CreateEditWorkout: FunctionalComponent<
                             },
                         }}
                     >
-                        <option value="false">Time(s)</option>
-                        <option value="true">Minute(s)</option>
+                        <option value={UnitConstants.time}>Time(s)</option>
+                        <option value={UnitConstants.minute}>Minute(s)</option>
+                        <option value={UnitConstants.distanceMeter}>
+                            Distance (meter)
+                        </option>
+                        <option value={UnitConstants.distanceKilometer}>
+                            Distance (kilometer)
+                        </option>
                     </SmartForm.Select>
 
                     <label>Workout Repetition Unit</label>

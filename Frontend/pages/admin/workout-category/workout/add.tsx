@@ -4,6 +4,7 @@ import { ApiException } from "../../../../src/clients/ApiClient";
 import { SimpleAppBar } from "../../../../src/components/AppBar";
 import { createAuthorizeLayout } from "../../../../src/components/layouts/AuthorizedLayout";
 import { CreateEditWorkout } from "../../../../src/components/pages/CreateEditWorkout";
+import { UnitConstants } from "../../../../src/constants/UnitConstants";
 import { alertError, alertSuccess } from "../../../../src/functions/alert";
 import { createApiClient } from "../../../../src/functions/create-api-client";
 import { getBase64 } from "../../../../src/functions/get-base64";
@@ -24,7 +25,7 @@ const CreateWorkoutPage: NextPageWithLayout = () => {
                 categoryId: categoryId as string,
                 description: "",
                 iconBase64: "",
-                isMinute: "false",
+                isMinute: UnitConstants.time,
                 name: "",
                 videoUrl: "",
             }}
@@ -40,7 +41,8 @@ const CreateWorkoutPage: NextPageWithLayout = () => {
                         categoryId: data.categoryId,
                         description: data.description,
                         iconBase64: iconBase64,
-                        isMinute: data.isMinute === "true",
+                        // unit: data.isMinute,
+                        unit: data.isMinute,
                         name: data.name,
                         videoUrl: data.videoUrl,
                     });

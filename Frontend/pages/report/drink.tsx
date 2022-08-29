@@ -161,7 +161,7 @@ const DrinkPage: NextPageWithLayout = () => {
                         </button>
                     </div>
 
-                    <div className="bg-secondary  fixed-bottom">
+                    <div className="bg-secondary fixed-bottom">
                         <div className="container">
                             <h3 className="border-bottom border-dark py-1 ms-1">
                                 Drink Tips

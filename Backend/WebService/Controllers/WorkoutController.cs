@@ -42,7 +42,8 @@ public class WorkoutController : ControllerBase
             {
                 Description = w.Description ?? "",
                 Name = w.Name,
-                IsMinute = w.IsMinute,
+                // IsMinute = w.IsMinute,
+                Unit = w.Unit,
                 VideoUrl = w.VideoUrl ?? "",
                 IconBase64 = w.IconBase64 ?? "",
                 CategoryId = w.WorkoutCategoryId,
@@ -74,7 +75,8 @@ public class WorkoutController : ControllerBase
             WorkoutId = Guid.NewGuid(),
             Description = form.Description,
             IconBase64 = form.IconBase64,
-            IsMinute = form.IsMinute,
+            // IsMinute = form.IsMinute,
+            Unit = form.Unit,
             Name = form.Name,
             VideoUrl = form.VideoUrl,
             WorkoutCategoryId = form.CategoryId,
@@ -108,7 +110,8 @@ public class WorkoutController : ControllerBase
         }
 
         workout.Description = form.Description;
-        workout.IsMinute = form.IsMinute;
+        // workout.IsMinute = form.IsMinute;
+        workout.Unit = form.Unit;
         workout.Name = form.Name;
         workout.VideoUrl = form.VideoUrl;
 
@@ -124,7 +127,8 @@ public class WorkoutController : ControllerBase
             CategoryId = workout.WorkoutCategoryId,
             Description = workout.Description,
             IconBase64 = workout.IconBase64 ?? "",
-            IsMinute = workout.IsMinute,
+            // IsMinute = workout.IsMinute,
+            Unit = workout.Unit,
             Name = workout.Name,
             VideoUrl = workout.VideoUrl,
         };
