@@ -94,6 +94,9 @@ const ManualPage: NextPageWithLayout = () => {
                             <option value={UnitConstants.distanceKilometer}>
                                 Distance (kilometer)
                             </option>
+                            <option value={UnitConstants.calories}>
+                                Calories
+                            </option>
                         </SmartForm.Select>
 
                         <label>Workout Repetition Unit</label>
