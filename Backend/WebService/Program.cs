@@ -1,10 +1,12 @@
 using Database.Entities;
+using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using NSwag;
 using NSwag.AspNetCore;
 using NSwag.Generation.Processors.Security;
+using WebService;
 using WebService.Models.Settings;
 using WebService.Services;
 using WebService.Services.Commons;
@@ -85,8 +87,13 @@ services.AddDbContextPool<BeFitDbContext>(options =>
 
 services.AddHttpContextAccessor();
 
+builder.Services.AddHangfire(x => x.UseInMemoryStorage());
+builder.Services.AddHangfireServer();
+
 services.AddTransient<WebPushService>();
 services.AddTransient<UserIdentityService>();
+
+builder.Services.AddHostedService<RegisterJobsService>();
 
 var app = builder.Build();
 
@@ -114,4 +121,15 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthorization();
 app.MapControllers();
+app.MapHangfireDashboard(new DashboardOptions
+{
+    Authorization = new[]
+    {
+        new HangfireCustomBasicAuthenticationFilter
+        {
+            User = builder.Configuration.GetSection("HangfireSettings:UserName").Value,
+            Pass = builder.Configuration.GetSection("HangfireSettings:Password").Value
+        }
+    }
+});
 app.Run();
