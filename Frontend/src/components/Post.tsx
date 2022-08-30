@@ -136,7 +136,7 @@ export const Post: FunctionComponent<{
                             <tr>
                                 <th>Workout</th>
                                 <th>Target</th>
-                                <th>Progress</th>
+                                <th>Achieve</th>
                             </tr>
                         </thead>
 
