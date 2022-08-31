@@ -49,6 +49,7 @@ public class UserAccountController : ControllerBase
             Password = BCrypt.Net.BCrypt.HashPassword(form.Password),
             WaterTarget = 8,
             PerGlass = 230,
+            DrinkReminderTimes = new List<string> { "12:00", "9:00", "15:00", "6:00", "18:00", "21:00", "8:00", "14:00" }.ToArray()
         };
 
         _beFitDbContext.Add(newAccount);

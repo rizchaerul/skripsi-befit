@@ -92,6 +92,7 @@ builder.Services.AddHangfireServer();
 
 services.AddTransient<WebPushService>();
 services.AddTransient<UserIdentityService>();
+services.AddTransient<JobService>();
 
 builder.Services.AddHostedService<RegisterJobsService>();
 

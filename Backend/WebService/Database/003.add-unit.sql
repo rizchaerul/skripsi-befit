@@ -29,7 +29,13 @@ SET
 ALTER TABLE
   workout DROP COLUMN is_minute;
 
+-- Add progress_json column
 ALTER TABLE
   user_workout
 ADD
-  COLUMN progress_json text
+  COLUMN progress_json text;
+
+-- Add drink_reminder_times
+alter TABLE
+  user_account
+ADD COLUMN drink_reminder_times text [];

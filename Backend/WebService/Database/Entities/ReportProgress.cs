@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using WebService.Constants;
 using WebService.Controllers;
@@ -300,6 +301,24 @@ namespace Database.Entities
             {
                 user.WaterTarget = totalGlass;
                 user.PerGlass = perGlass;
+
+                var hours = new List<string> { "12:00", "9:00", "15:00", "6:00", "18:00", "21:00", "8:00", "14:00", "20:00", "7:00", "13:00", "19:00", "10:00", "16:00", "11:00", "17:00" };
+                var index = totalGlass;
+
+                if (index <= 0)
+                {
+                    user.DrinkReminderTimes = null;
+                }
+                else
+                {
+                    if (index > 16)
+                    {
+                        index = 16;
+                    }
+
+                    user.DrinkReminderTimes = hours.Take(index).ToArray();
+
+                }
             }
         }
 

@@ -55,6 +55,8 @@ namespace Database.Entities
         public bool? IsCommentNotificationActive { get; set; }
         [Column("created_at")]
         public DateTime CreatedAt { get; set; }
+        [Column("drink_reminder_times")]
+        public string[]? DrinkReminderTimes { get; set; }
 
         [InverseProperty(nameof(Notification.UserAccount))]
         public virtual ICollection<Notification> Notifications { get; set; }

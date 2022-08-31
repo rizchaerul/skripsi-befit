@@ -24,8 +24,6 @@ namespace Database.Entities
         public string Name { get; set; } = null!;
         [Column("icon_base64")]
         public string? IconBase64 { get; set; }
-        [Column("is_minute")]
-        public bool IsMinute { get; set; }
         [Column("video_url")]
         public string? VideoUrl { get; set; }
         [Column("description")]
