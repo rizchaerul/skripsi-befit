@@ -200,12 +200,12 @@ const HeightPage: NextPageWithLayout = () => {
                         </button>
                     </div>
 
-                    <div className="bg-secondary  fixed-bottom">
+                    <div className="bg-secondary fixed-bottom-res">
                         <div className="container">
                             <h3 className="border-bottom border-dark py-1 ms-1">
                                 Height Tips
                             </h3>
-                            <p className="p-2">
+                            <p className="p-2 small mb-0">
                                 Yoga can increase your height.
                             </p>
                         </div>

@@ -75,7 +75,7 @@ const DrinkPage: NextPageWithLayout = () => {
     }
 
     return (
-        <Fragment>
+        <div style={{ minHeight: 700 }}>
             <div
                 className="text-white"
                 style={{
@@ -281,7 +281,7 @@ const DrinkPage: NextPageWithLayout = () => {
                     </div>
                 </Modal.Body>
             </Modal>
-        </Fragment>
+        </div>
     );
 };
 
