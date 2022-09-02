@@ -29,6 +29,8 @@ export const CustomInput: FunctionComponent<{
     defaultValue: string | number | readonly string[] | undefined;
     disabled?: boolean;
     success?: boolean;
+    target: number;
+    progress: number;
 }> = (props) => {
     const debounceLoad = useRef(debounce(1000, props.onChange));
 
@@ -43,7 +45,11 @@ export const CustomInput: FunctionComponent<{
     return (
         <Fragment>
             <input
-                className={props.success ? "bg-success text-white" : ""}
+                className={
+                    parseInt(value) >= props.target
+                        ? "bg-success text-white"
+                        : ""
+                }
                 disabled={props.disabled}
                 type="number"
                 step={1}

@@ -205,7 +205,9 @@ const WorkoutPage: NextPageWithLayout = () => {
                                             }`}
                                         >
                                             <CustomInput
-                                                success={w.progress >= w.target}
+                                                // success={w.progress >= w.target}
+                                                target={w.target}
+                                                progress={w.progress}
                                                 disabled={loadingProgressInput}
                                                 defaultValue={w.progress}
                                                 onChange={async (value) => {
