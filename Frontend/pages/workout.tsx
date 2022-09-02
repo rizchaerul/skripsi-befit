@@ -1,14 +1,21 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { Fragment, FunctionComponent, useState } from "react";
 import { Dropdown, Modal } from "react-bootstrap";
-import { BsDashCircle, BsPlusCircle, BsShareFill } from "react-icons/bs";
+import {
+    BsAlarm,
+    BsDashCircle,
+    BsPlusCircle,
+    BsShareFill,
+} from "react-icons/bs";
 import useSWR from "swr";
 import {
     ApiClient,
     ApiException,
     PostCategory,
 } from "../src/clients/ApiClient";
+import { CustomInput } from "../src/components/CustomInput";
 import { RteInput } from "../src/components/forms/inputs/RteInput";
 import SmartForm from "../src/components/forms/SmartForm";
 import { createAuthorizeLayout } from "../src/components/layouts/AuthorizedLayout";
@@ -20,6 +27,8 @@ import { NextPageWithLayout } from "./_app";
 
 const WorkoutPage: NextPageWithLayout = () => {
     const session = useSession();
+    const router = useRouter();
+
     const { data, mutate } = useSWR(
         [
             nameof<ApiClient>("userWorkout_GetUserWorkouts"),
@@ -43,6 +52,7 @@ const WorkoutPage: NextPageWithLayout = () => {
     const [showShareModal, setShowShareModal] = useState(false);
     const [loadingShare, setLoadingShare] = useState(false);
     const [loadingProgress, setLoadingProgress] = useState(false);
+    const [loadingProgressInput, setLoadingProgressInput] = useState(false);
 
     const [showDescriptionModal, setShowDescriptionModal] = useState(false);
 
@@ -51,8 +61,6 @@ const WorkoutPage: NextPageWithLayout = () => {
     const [target, setTarget] = useState(0);
     const [progress, setProgress] = useState(0);
     const [selectedWorkoutForDesc, setSelectedWorkoutForDesc] = useState("");
-
-    // const [showProgressModal, setShowProgressModal] = useState(false);
 
     function handleCloseTarget() {
         setShowTargetModal(false);
@@ -77,6 +85,20 @@ const WorkoutPage: NextPageWithLayout = () => {
                     <h2 className="text-primary display-2 fw-bold">BeFit</h2>
 
                     <div className="ms-auto">
+                        <button
+                            className="btn btn-primary me-3"
+                            onClick={() =>
+                                router.push(
+                                    "/profile/settings/notification?backHref=workout"
+                                )
+                            }
+                        >
+                            <BsAlarm />
+                            <span className="d-none d-md-inline">
+                                &nbsp; Reminder Setting
+                            </span>
+                        </button>
+
                         {data && data.items.length !== 0 && (
                             <button
                                 className="btn btn-primary"
@@ -101,15 +123,6 @@ const WorkoutPage: NextPageWithLayout = () => {
                     backgroundImage: `url("/images/run.webp")`,
                 }}
             >
-                {/* <img
-                    src="https://images.pexels.com/photos/40751/running-runner-long-distance-fitness-40751.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                    alt=""
-                    width="100%"
-                    height={125}
-                    style={{ objectFit: "cover" }}
-                /> */}
-
-                {/* <div className="position-absolute" style={{ top: "30%" }}> */}
                 <div className="container">
                     <h1 className="text-white">MY WORKOUT</h1>
                 </div>
@@ -124,7 +137,15 @@ const WorkoutPage: NextPageWithLayout = () => {
                 )}
 
                 <div className="d-flex align-items-center py-3 justify-content-between">
-                    {["S", "M", "T", "W", "T", "F", "S"].map((w, i) => {
+                    {[
+                        "Sunday",
+                        "Monday",
+                        "Tuesday",
+                        "Wednesday",
+                        "Thursday",
+                        "Friday",
+                        "Saturday",
+                    ].map((w, i) => {
                         let className = "btn-light";
 
                         if (daysData?.includes(i)) {
@@ -143,39 +164,18 @@ const WorkoutPage: NextPageWithLayout = () => {
                                         await mutate();
                                     }}
                                 />
-
-                                {/* <button
-                                    className={`btn ${className} rounded-circle`}
-                                    onClick={async () => {
-                                        await createApiClient().userWorkout_SubmitDays(
-                                            "",
-                                            i
-                                        );
-
-                                        mutateDays();
-                                    }}
-                                >
-                                    <LoadingIndicator loading={false} />
-                                    {w}
-                                </button> */}
                             </div>
                         );
                     })}
                 </div>
-
-                {/* <Dropdown className="ms-auto">
-                    <Dropdown.Toggle variant="primary"></Dropdown.Toggle>
-
-                    <Dropdown.Menu align="end">
-                        <Dropdown.Item>Edit Progress</Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown> */}
 
                 {data === undefined && (
                     <div className="text-center mt-5">
                         <LoadingIndicator />
                     </div>
                 )}
+
+                {loadingProgressInput && "Saving..."}
 
                 {data && data?.items.length !== 0 && (
                     <table className="table table-secondary">
@@ -190,99 +190,128 @@ const WorkoutPage: NextPageWithLayout = () => {
 
                         <tbody>
                             {data?.items.map((w) => (
-                                <tr key={w.id}>
-                                    <td>{w.name}</td>
-                                    <td>
-                                        {w.target} {w.unit}
-                                    </td>
-                                    <td
-                                        className={`${
-                                            w.progress >= w.target
-                                                ? "fw-bold text-success"
-                                                : ""
-                                        }`}
-                                    >
-                                        {w.progress}
-                                    </td>
-                                    <td>
-                                        <Dropdown className="ms-auto">
-                                            <Dropdown.Toggle variant="secondary">
-                                                {/* <BsThreeDotsVertical /> */}
-                                            </Dropdown.Toggle>
+                                <Fragment key={w.id}>
+                                    <tr>
+                                        <td>{w.name}</td>
+                                        <td>
+                                            {w.target} {w.unit}{" "}
+                                        </td>
+                                        <td
+                                            className={`${
+                                                w.progress >= w.target
+                                                    ? "fw-bold text-success"
+                                                    : ""
+                                            }`}
+                                        >
+                                            <CustomInput
+                                                disabled={loadingProgressInput}
+                                                defaultValue={w.progress}
+                                                onChange={async (value) => {
+                                                    if (isNaN(value)) return;
 
-                                            <Dropdown.Menu align="end">
-                                                {w.isCustom === false && (
+                                                    try {
+                                                        setLoadingProgressInput(
+                                                            true
+                                                        );
+                                                        await createApiClient().userWorkout_InsertProgress(
+                                                            w.workoutId,
+                                                            value
+                                                        );
+                                                        await mutate();
+                                                        // alertSuccess();
+                                                        setLoadingProgressInput(
+                                                            false
+                                                        );
+                                                    } catch (err) {
+                                                        setLoadingProgressInput(
+                                                            false
+                                                        );
+                                                        console.error(err);
+                                                        alertError();
+                                                    }
+                                                }}
+                                            />
+                                        </td>
+                                        <td>
+                                            <Dropdown className="ms-auto">
+                                                <Dropdown.Toggle variant="secondary"></Dropdown.Toggle>
+
+                                                <Dropdown.Menu align="end">
+                                                    {w.isCustom === false && (
+                                                        <Dropdown.Item
+                                                            onClick={() => {
+                                                                setSelectedWorkoutForDesc(
+                                                                    w.workoutId
+                                                                );
+                                                                setShowDescriptionModal(
+                                                                    true
+                                                                );
+                                                            }}
+                                                        >
+                                                            View Description
+                                                        </Dropdown.Item>
+                                                    )}
+
                                                     <Dropdown.Item
                                                         onClick={() => {
-                                                            setSelectedWorkoutForDesc(
-                                                                w.workoutId
+                                                            setProgress(
+                                                                w.progress
                                                             );
-                                                            setShowDescriptionModal(
+                                                            setselectedWorkoutDetailId(
+                                                                w.id
+                                                            );
+                                                            setShowProgressModal(
                                                                 true
                                                             );
                                                         }}
                                                     >
-                                                        View Description
+                                                        Update Progress
                                                     </Dropdown.Item>
-                                                )}
 
-                                                <Dropdown.Item
-                                                    onClick={() => {
-                                                        setProgress(w.progress);
-                                                        setselectedWorkoutDetailId(
-                                                            w.id
-                                                        );
-                                                        setShowProgressModal(
-                                                            true
-                                                        );
-                                                    }}
-                                                >
-                                                    Update Progress
-                                                </Dropdown.Item>
+                                                    <Dropdown.Item
+                                                        onClick={() => {
+                                                            setTarget(w.target);
+                                                            setselectedWorkoutDetailId(
+                                                                w.id
+                                                            );
+                                                            setShowTargetModal(
+                                                                true
+                                                            );
+                                                        }}
+                                                    >
+                                                        Edit Target
+                                                    </Dropdown.Item>
 
-                                                <Dropdown.Item
-                                                    onClick={() => {
-                                                        setTarget(w.target);
-                                                        setselectedWorkoutDetailId(
-                                                            w.id
-                                                        );
-                                                        setShowTargetModal(
-                                                            true
-                                                        );
-                                                    }}
-                                                >
-                                                    Edit Target
-                                                </Dropdown.Item>
-
-                                                <Dropdown.Item
-                                                    className="text-danger"
-                                                    onClick={async () => {
-                                                        const result =
-                                                            await alertConfirm();
-                                                        if (
-                                                            result.isConfirmed
-                                                        ) {
-                                                            try {
-                                                                await createApiClient().userWorkout_DeleteWorkoutDetail(
-                                                                    w.id
-                                                                );
-                                                                alertSuccess();
-                                                                mutate();
-                                                            } catch (err) {
-                                                                console.error(
-                                                                    err
-                                                                );
-                                                                alertError();
+                                                    <Dropdown.Item
+                                                        className="text-danger"
+                                                        onClick={async () => {
+                                                            const result =
+                                                                await alertConfirm();
+                                                            if (
+                                                                result.isConfirmed
+                                                            ) {
+                                                                try {
+                                                                    await createApiClient().userWorkout_DeleteWorkoutDetail(
+                                                                        w.id
+                                                                    );
+                                                                    alertSuccess();
+                                                                    mutate();
+                                                                } catch (err) {
+                                                                    console.error(
+                                                                        err
+                                                                    );
+                                                                    alertError();
+                                                                }
                                                             }
-                                                        }
-                                                    }}
-                                                >
-                                                    Delete
-                                                </Dropdown.Item>
-                                            </Dropdown.Menu>
-                                        </Dropdown>
-                                    </td>
-                                </tr>
+                                                        }}
+                                                    >
+                                                        Delete
+                                                    </Dropdown.Item>
+                                                </Dropdown.Menu>
+                                            </Dropdown>
+                                        </td>
+                                    </tr>
+                                </Fragment>
                             ))}
                         </tbody>
                     </table>
@@ -672,6 +701,7 @@ const DaysButton: FunctionComponent<{
     return (
         <Fragment>
             <button
+                title={props.dayName}
                 disabled={loading || props.disabled}
                 className={props.className}
                 onClick={async () => {
@@ -692,7 +722,18 @@ const DaysButton: FunctionComponent<{
                 }}
             >
                 <LoadingIndicator loading={loading} />
-                {loading === false && props.dayName}
+
+                <div className="d-none d-md-block">
+                    {loading === false && props.dayName}
+                </div>
+
+                <div className="d-none d-sm-block d-md-none">
+                    {loading === false && props.dayName.substring(0, 3)}
+                </div>
+
+                <div className="d-block d-sm-none">
+                    {loading === false && props.dayName.substring(0, 1)}
+                </div>
             </button>
         </Fragment>
     );
