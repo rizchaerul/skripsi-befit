@@ -176,7 +176,9 @@ const WorkoutPage: NextPageWithLayout = () => {
                     </div>
                 )}
 
-                {loadingProgressInput && "Saving..."}
+                <div style={{ height: 25 }}>
+                    {loadingProgressInput && "Saving..."}
+                </div>
 
                 {data && data?.items.length !== 0 && (
                     <table className="table table-secondary">
