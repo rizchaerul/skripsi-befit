@@ -14,6 +14,7 @@ import { Modal, ProgressBar } from "react-bootstrap";
 import { Line } from "react-chartjs-2";
 import DatePicker from "react-datepicker";
 import {
+    BsAlarm,
     BsChevronLeft,
     BsCupStraw,
     BsDash,
@@ -97,7 +98,7 @@ const DrinkPage: NextPageWithLayout = () => {
                 <div className="text-center text-white pt-3">
                     <h1>
                         Drink Report{" "}
-                        <BsGear onClick={() => setShowModal(true)} />
+                        <BsGear onClick={() => setShowModal(true)} />{" "}
                     </h1>
                 </div>
             </div>
@@ -124,9 +125,26 @@ const DrinkPage: NextPageWithLayout = () => {
             {menu === 0 && (
                 <Fragment>
                     <div className="container text-white mt-3">
-                        <h5>
-                            {data?.progress} of {data?.target} Glasses
-                        </h5>
+                        <div className="row">
+                            <div className="col">
+                                <h5>
+                                    {data?.progress} of {data?.target} Glasses
+                                </h5>
+                            </div>
+
+                            <div className="col-auto">
+                                <BsAlarm
+                                    size={30}
+                                    className="mb-3"
+                                    onClick={() =>
+                                        router.push(
+                                            "/profile/settings/notification?backHref=report/drink"
+                                        )
+                                    }
+                                />
+                            </div>
+                        </div>
+
                         <ProgressBar
                             className="rounded-pill"
                             now={

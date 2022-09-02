@@ -22,7 +22,7 @@ const WorkoutPage: NextPageWithLayout = () => {
     useBg("bg-black");
 
     const [showModal, setShowModal] = useState(false);
-    const [menu, setMenu] = useState(1);
+    const [menu, setMenu] = useState(0);
     const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
 
     const { data } = useSWR(
@@ -122,7 +122,7 @@ const WorkoutPage: NextPageWithLayout = () => {
                 {menu === 0 && (
                     <Fragment>
                         {!data && <LoadingIndicator className="text-white" />}
-                        {data?.workouts.map((w, index) => (
+                        {data?.workouts.reverse().map((w, index) => (
                             <div key={index} className="text-white">
                                 <table className="table table-dark">
                                     <thead>
