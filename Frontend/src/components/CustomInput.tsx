@@ -28,6 +28,7 @@ export const CustomInput: FunctionComponent<{
     onChange: (value: number) => void;
     defaultValue: string | number | readonly string[] | undefined;
     disabled?: boolean;
+    success?: boolean;
 }> = (props) => {
     const debounceLoad = useRef(debounce(1000, props.onChange));
 
@@ -42,6 +43,7 @@ export const CustomInput: FunctionComponent<{
     return (
         <Fragment>
             <input
+                className={props.success ? "bg-success text-white" : ""}
                 disabled={props.disabled}
                 type="number"
                 step={1}

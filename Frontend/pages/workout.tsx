@@ -5,6 +5,7 @@ import { Fragment, FunctionComponent, useState } from "react";
 import { Dropdown, Modal } from "react-bootstrap";
 import {
     BsAlarm,
+    BsCheck,
     BsDashCircle,
     BsPlusCircle,
     BsShareFill,
@@ -204,6 +205,7 @@ const WorkoutPage: NextPageWithLayout = () => {
                                             }`}
                                         >
                                             <CustomInput
+                                                success={w.progress >= w.target}
                                                 disabled={loadingProgressInput}
                                                 defaultValue={w.progress}
                                                 onChange={async (value) => {
@@ -231,6 +233,9 @@ const WorkoutPage: NextPageWithLayout = () => {
                                                     }
                                                 }}
                                             />
+                                            {/* {w.progress >= w.target && (
+                                                <BsCheck />
+                                            )} */}
                                         </td>
                                         <td>
                                             <Dropdown className="ms-auto">
