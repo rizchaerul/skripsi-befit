@@ -17,7 +17,7 @@ export const CustomTimePicker: FunctionComponent<{
 
     return (
         <Fragment>
-            {a.field.value.map((x, i) => (
+            {a.field.value.map((x: string, i: number) => (
                 <div className="row" key={i}>
                     <div className="col">
                         <ReactDatePicker
@@ -64,7 +64,9 @@ export const CustomTimePicker: FunctionComponent<{
                                 className="btn btn-danger  me-3"
                                 onClick={() => {
                                     a.field.onChange(
-                                        a.field.value.filter((x, j) => i !== j)
+                                        a.field.value.filter(
+                                            (x: string, j: number) => i !== j
+                                        )
                                     );
                                 }}
                             >
