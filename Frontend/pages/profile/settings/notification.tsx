@@ -1,9 +1,13 @@
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
+import ReactDatePicker from "react-datepicker";
 import { UseFormReturn } from "react-hook-form";
+import { BsPlus, BsTrash } from "react-icons/bs";
 import { NotificationSettingDetails } from "../../../src/clients/ApiClient";
 import { SimpleAppBar } from "../../../src/components/AppBar";
 import { ConditionalRender } from "../../../src/components/ConditionalRender";
+import { CustomTimePicker } from "../../../src/components/CustomTimePicker";
 import SmartForm from "../../../src/components/forms/SmartForm";
 import { createAuthorizeLayout } from "../../../src/components/layouts/AuthorizedLayout";
 import { alertError } from "../../../src/functions/alert";
@@ -12,6 +16,7 @@ import { NextPageWithLayout } from "../../_app";
 
 const NotificationPage: NextPageWithLayout = () => {
     const session = useSession();
+    const { query } = useRouter();
 
     const [isDisabled, setIsDisabled] = useState(true);
 
@@ -33,7 +38,13 @@ const NotificationPage: NextPageWithLayout = () => {
                         session.data?.token.sub
                     );
 
-                setInitialSettingsForm(result);
+                setInitialSettingsForm({
+                    ...result,
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    workoutTimes: ["15:30", "15:20"],
+                    drinkTimes: ["15:30", "15:20"],
+                });
             } catch {
                 await alertError();
             }
@@ -63,7 +74,13 @@ const NotificationPage: NextPageWithLayout = () => {
                         }
                     );
 
-                methods.reset(result);
+                methods.reset({
+                    ...result,
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    workoutTimes: ["15:30", "15:20"],
+                    drinkTimes: ["15:30", "15:20"],
+                });
             } catch {
                 await alertError();
             }
@@ -74,7 +91,14 @@ const NotificationPage: NextPageWithLayout = () => {
 
     return (
         <Fragment>
-            <SimpleAppBar backHref="/profile/settings" title="Notification" />
+            <SimpleAppBar
+                backHref={
+                    query["backHref"]
+                        ? `/${query["backHref"]}`
+                        : "/profile/settings"
+                }
+                title="Notification"
+            />
 
             <ConditionalRender
                 condition={!!initialSettingsForm}
@@ -122,6 +146,16 @@ const NotificationPage: NextPageWithLayout = () => {
                                 />
                             </div>
                         </div>
+
+                        <div className="border-bottom" />
+
+                        <h6>Workout Reminder Times</h6>
+                        <CustomTimePicker name="workoutTimes" />
+
+                        <div className="border-bottom" />
+
+                        <h6>Drink Reminder Times</h6>
+                        <CustomTimePicker name="drinkTimes" />
 
                         <div className="text-center mt-5">
                             <button
