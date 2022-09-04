@@ -88,42 +88,6 @@ export class ApiClient {
         return Promise.resolve<FileResponse | null>(null as any);
     }
 
-    job_TriggerNotification(isDrink: boolean | undefined): Promise<FileResponse | null> {
-        let url_ = this.baseUrl + "/api/Job?";
-        if (isDrink === null)
-            throw new Error("The parameter 'isDrink' cannot be null.");
-        else if (isDrink !== undefined)
-            url_ += "isDrink=" + encodeURIComponent("" + isDrink) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: RequestInit = {
-            method: "GET",
-            headers: {
-                "Accept": "application/octet-stream"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processJob_TriggerNotification(_response);
-        });
-    }
-
-    protected processJob_TriggerNotification(response: Response): Promise<FileResponse | null> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<FileResponse | null>(null as any);
-    }
-
     notification_GetCount(userAccountId: string): Promise<number> {
         let url_ = this.baseUrl + "/api/Notification/{userAccountId}/count";
         if (userAccountId === undefined || userAccountId === null)
@@ -1029,6 +993,38 @@ export class ApiClient {
         return Promise.resolve<HeightReportItem[]>(null as any);
     }
 
+    test_Get(): Promise<FileResponse | null> {
+        let url_ = this.baseUrl + "/api/Test";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/octet-stream"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processTest_Get(_response);
+        });
+    }
+
+    protected processTest_Get(response: Response): Promise<FileResponse | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<FileResponse | null>(null as any);
+    }
+
     userAccount_SignUp(form: SignUpUserAccount): Promise<FileResponse | null> {
         let url_ = this.baseUrl + "/api/UserAccount/sign-up";
         url_ = url_.replace(/[?&]$/, "");
@@ -1862,6 +1858,38 @@ export class ApiClient {
         return Promise.resolve<FileResponse | null>(null as any);
     }
 
+    wake_Get(): Promise<FileResponse | null> {
+        let url_ = this.baseUrl + "/api/Wake";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/octet-stream"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processWake_Get(_response);
+        });
+    }
+
+    protected processWake_Get(response: Response): Promise<FileResponse | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<FileResponse | null>(null as any);
+    }
+
     workoutCategory_Get(): Promise<WorkoutCategoryItem[]> {
         let url_ = this.baseUrl + "/api/WorkoutCategory";
         url_ = url_.replace(/[?&]$/, "");
@@ -2408,6 +2436,8 @@ export interface NotificationSettingDetails {
     isReminderNotificationActive: boolean;
     isCommentNotificationActive: boolean;
     isDrinkNotificationActive: boolean;
+    drinkNotificationTimes: string[];
+    workoutNotificationTimes: string[];
 }
 
 export interface UserAccountItem {

@@ -17,6 +17,16 @@ export const CustomTimePicker: FunctionComponent<{
 
     return (
         <Fragment>
+            <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => {
+                    a.field.onChange([...a.field.value, "17:00"]);
+                }}
+            >
+                <BsPlus /> Add Reminder
+            </button>
+
             {a.field.value.map((x: string, i: number) => (
                 <div className="row" key={i}>
                     <div className="col">
@@ -58,22 +68,20 @@ export const CustomTimePicker: FunctionComponent<{
                     </div>
 
                     <div className="col-auto">
-                        {i !== 0 && (
-                            <button
-                                type="button"
-                                className="btn btn-danger  me-3"
-                                onClick={() => {
-                                    a.field.onChange(
-                                        a.field.value.filter(
-                                            (x: string, j: number) => i !== j
-                                        )
-                                    );
-                                }}
-                            >
-                                <BsTrash />
-                            </button>
-                        )}
-
+                        <button
+                            type="button"
+                            className="btn btn-danger  me-3"
+                            onClick={() => {
+                                a.field.onChange(
+                                    a.field.value.filter(
+                                        (x: string, j: number) => i !== j
+                                    )
+                                );
+                            }}
+                        >
+                            <BsTrash />
+                        </button>
+                        {/* 
                         {i === a.field.value.length - 1 && (
                             <button
                                 type="button"
@@ -87,7 +95,7 @@ export const CustomTimePicker: FunctionComponent<{
                             >
                                 <BsPlus />
                             </button>
-                        )}
+                        )} */}
                     </div>
                 </div>
             ))}

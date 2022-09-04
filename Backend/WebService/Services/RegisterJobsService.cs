@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Database.Entities;
 using Hangfire;
 using Microsoft.Extensions.Hosting;
+using WebService.Controllers;
 using WebService.Services.Commons;
 
 namespace WebService.Services
@@ -22,15 +23,11 @@ namespace WebService.Services
             var scope = _scopeFactory.CreateScope();
 
             var db = scope.ServiceProvider.GetRequiredService<BeFitDbContext>();
-            var jobService = scope.ServiceProvider.GetRequiredService<JobService>();
+            var jobService = scope.ServiceProvider.GetRequiredService<JobController>();
 
-            RecurringJob.AddOrUpdate("DrinkNotification",
-                () => jobService.NotifyUser(true, false),
+            RecurringJob.AddOrUpdate("ReminderNotification",
+                () => jobService.NotifyUser(),
                 "*/5 * * * *");
-
-            RecurringJob.AddOrUpdate("WorkoutNotification",
-                () => jobService.NotifyUser(false, true),
-                "0 9 * * *");
 
             return Task.CompletedTask;
         }

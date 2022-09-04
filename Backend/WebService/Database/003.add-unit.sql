@@ -39,3 +39,8 @@ ADD
 alter TABLE
   user_account
 ADD COLUMN drink_reminder_times text [];
+
+-- Add drink_reminder_times
+alter TABLE
+  user_account
+ADD COLUMN workout_reminder_times text [];

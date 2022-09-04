@@ -7,6 +7,7 @@ using NSwag;
 using NSwag.AspNetCore;
 using NSwag.Generation.Processors.Security;
 using WebService;
+using WebService.Controllers;
 using WebService.Models.Settings;
 using WebService.Services;
 using WebService.Services.Commons;
@@ -92,7 +93,7 @@ builder.Services.AddHangfireServer();
 
 services.AddTransient<WebPushService>();
 services.AddTransient<UserIdentityService>();
-services.AddTransient<JobService>();
+services.AddTransient<JobController>();
 
 builder.Services.AddHostedService<RegisterJobsService>();
 

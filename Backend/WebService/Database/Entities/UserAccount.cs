@@ -63,6 +63,8 @@ namespace Database.Entities
         public DateTime CreatedAt { get; set; }
         [Column("drink_reminder_times")]
         public string[]? DrinkReminderTimes { get; set; }
+        [Column("workout_reminder_times")]
+        public string[]? WorkoutReminderTimes { get; set; }
 
         [InverseProperty(nameof(Notification.UserAccount))]
         public virtual ICollection<Notification> Notifications { get; set; }

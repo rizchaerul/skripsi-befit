@@ -12,4 +12,10 @@ public class NotificationSettingDetails
 
     [Required]
     public bool IsDrinkNotificationActive { get; set; }
+
+    [Required]
+    public List<string> DrinkNotificationTimes { get; set; } = new();
+
+    [Required]
+    public List<string> WorkoutNotificationTimes { get; set; } = new();
 }

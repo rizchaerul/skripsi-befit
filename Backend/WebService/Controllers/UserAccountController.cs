@@ -49,7 +49,8 @@ public class UserAccountController : ControllerBase
             Password = BCrypt.Net.BCrypt.HashPassword(form.Password),
             WaterTarget = 8,
             PerGlass = 230,
-            DrinkReminderTimes = new List<string> { "12:00", "9:00", "15:00", "6:00", "18:00", "21:00", "8:00", "14:00" }.ToArray()
+            DrinkReminderTimes = new List<string> { "23:00", "05:00", "11:00" }.ToArray(),
+            WorkoutReminderTimes = new List<string> { "09:00" }.ToArray(),
         };
 
         _beFitDbContext.Add(newAccount);
@@ -196,7 +197,9 @@ public class UserAccountController : ControllerBase
         {
             IsCommentNotificationActive = userAccount.IsCommentNotificationActive.GetValueOrDefault(),
             IsDrinkNotificationActive = userAccount.IsDrinkNotificationActive.GetValueOrDefault(),
-            IsReminderNotificationActive = userAccount.IsReminderNotificationActive.GetValueOrDefault()
+            IsReminderNotificationActive = userAccount.IsReminderNotificationActive.GetValueOrDefault(),
+            DrinkNotificationTimes = userAccount.DrinkReminderTimes?.ToList() ?? new(),
+            WorkoutNotificationTimes = userAccount.WorkoutReminderTimes?.ToList() ?? new(),
         };
     }
 
@@ -218,13 +221,19 @@ public class UserAccountController : ControllerBase
         userAccount.IsDrinkNotificationActive = form.IsDrinkNotificationActive;
         userAccount.IsReminderNotificationActive = form.IsReminderNotificationActive;
 
+        userAccount.WorkoutReminderTimes = form.WorkoutNotificationTimes.ToArray();
+        userAccount.DrinkReminderTimes = form.DrinkNotificationTimes.ToArray();
+
         await _beFitDbContext.SaveChangesAsync();
 
         return new NotificationSettingDetails
         {
             IsCommentNotificationActive = userAccount.IsCommentNotificationActive.Value,
             IsDrinkNotificationActive = userAccount.IsDrinkNotificationActive.Value,
-            IsReminderNotificationActive = userAccount.IsReminderNotificationActive.Value
+            IsReminderNotificationActive = userAccount.IsReminderNotificationActive.Value,
+
+            DrinkNotificationTimes = userAccount.DrinkReminderTimes.ToList(),
+            WorkoutNotificationTimes = userAccount.WorkoutReminderTimes.ToList(),
         };
     }
 
