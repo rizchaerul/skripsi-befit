@@ -150,6 +150,8 @@ const NotificationPage: NextPageWithLayout = () => {
                                         JSON.stringify(sub)
                                     );
                                 }
+
+                                window.location.reload();
                             }}
                         >
                             Click here
