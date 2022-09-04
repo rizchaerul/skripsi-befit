@@ -261,7 +261,7 @@ const WorkoutPage: NextPageWithLayout = () => {
                                                         </Dropdown.Item>
                                                     )}
 
-                                                    <Dropdown.Item
+                                                    {/* <Dropdown.Item
                                                         onClick={() => {
                                                             setProgress(
                                                                 w.progress
@@ -275,7 +275,7 @@ const WorkoutPage: NextPageWithLayout = () => {
                                                         }}
                                                     >
                                                         Update Progress
-                                                    </Dropdown.Item>
+                                                    </Dropdown.Item> */}
 
                                                     <Dropdown.Item
                                                         onClick={() => {
