@@ -17,6 +17,8 @@ import "react-datepicker/dist/react-datepicker.min.css";
 
 import "../src/styles/index.scss";
 
+import "rc-time-picker/assets/index.css";
+
 /**
  * Session object, only used in client.
  */

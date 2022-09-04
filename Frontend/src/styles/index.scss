@@ -56,6 +56,11 @@ $min-contrast-ratio: 3;
     background-color: gray;
 }
 
+.rc-time-picker-input {
+    @extend .form-control;
+    @extend .form-control-lg;
+}
+
 .rounded-4 {
     border-radius: 0.5rem !important;
 }

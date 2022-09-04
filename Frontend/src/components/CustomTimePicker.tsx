@@ -1,3 +1,5 @@
+import moment from "moment";
+import TimePicker from "rc-time-picker";
 import { Fragment, FunctionComponent } from "react";
 import ReactDatePicker from "react-datepicker";
 import { useController, useFormContext } from "react-hook-form";
@@ -30,7 +32,40 @@ export const CustomTimePicker: FunctionComponent<{
             {a.field.value.map((x: string, i: number) => (
                 <div className="row" key={i}>
                     <div className="col">
-                        <ReactDatePicker
+                        <TimePicker
+                            className="h-100 w-100"
+                            value={moment(new Date(`2000-01-01T${x}Z`))}
+                            // onChange={(e) => setDate(e.toDate())}
+                            onChange={(e) => {
+                                const b = JSON.parse(
+                                    JSON.stringify(a.field.value)
+                                ) as string[];
+
+                                let hours = e.toDate().getUTCHours().toString();
+                                let minutes = e
+                                    .toDate()
+                                    .getUTCMinutes()
+                                    .toString();
+
+                                if (parseInt(hours) < 10) {
+                                    hours = `0${hours}`;
+                                }
+
+                                if (parseInt(minutes) < 10) {
+                                    minutes = `0${minutes}`;
+                                }
+
+                                b[i] = `${hours}:${minutes}`;
+
+                                console.log(b[i]);
+
+                                a.field.onChange(b);
+                            }}
+                            showSecond={false}
+                            allowEmpty={false}
+                            minuteStep={5}
+                        />
+                        {/* <ReactDatePicker
                             // onChange={() => 0}
                             onChange={(e) => {
                                 const b = JSON.parse(
@@ -64,7 +99,7 @@ export const CustomTimePicker: FunctionComponent<{
                             onChangeRaw={(e) => e.preventDefault()}
                             timeCaption="Time"
                             dateFormat="h:mm aa"
-                        />
+                        /> */}
                     </div>
 
                     <div className="col-auto">

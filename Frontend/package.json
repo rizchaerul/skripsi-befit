@@ -30,6 +30,7 @@
     "next": "^12.1.5",
     "next-auth": "^4.3.3",
     "next-pwa": "^5.5.2",
+    "rc-time-picker": "^3.7.3",
     "react": "^18.0.0",
     "react-bootstrap": "^2.3.0",
     "react-chartjs-2": "^4.1.0",
