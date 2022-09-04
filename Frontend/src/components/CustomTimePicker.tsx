@@ -63,6 +63,7 @@ export const CustomTimePicker: FunctionComponent<{
                             showSecond={false}
                             allowEmpty={false}
                             minuteStep={5}
+                            use12Hours
                         />
                         {/* <ReactDatePicker
                             // onChange={() => 0}
